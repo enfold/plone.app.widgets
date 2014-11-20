@@ -8,6 +8,9 @@ Changelog
   is not required
   [frapell]
 
+- Include latest compiled mockup, which fixes the anchor bug in TinyMCE
+  [frapell]
+
 
 1.7.0 (2014-07-15)
 ------------------
