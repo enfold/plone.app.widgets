@@ -1,8 +1,8 @@
 Changelog
 =========
 
-1.8.0 (unreleased)
-------------------
+1.7.0+enfold1 (2015-04-09)
+--------------------------
 
 - Allow to remove a selected option in the ``select2`` widget if the field
   is not required
