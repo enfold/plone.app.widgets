@@ -910,9 +910,21 @@ class DXFieldPermissionChecker(object):
                 # match the vocabulary name for the field or widget,
                 # fail.
                 field = schema[field_name]
+                valid_vocabulary_name = True
                 if vocabulary_name and (
                    vocabulary_name != getattr(field, 'vocabulary', None) and
                    vocabulary_name != getattr(field, 'vocabularyName', None)):
+                    valid_vocabulary_name = False
+                    # Also check if the field has a value_type attribute
+                    if getattr(field, 'value_type', False) and (
+                       vocabulary_name == getattr(field.value_type,
+                                                  'vocabulary', None) or
+                       vocabulary_name == getattr(field.value_type,
+                                                  'vocabularyName', None)):
+                        # The vocabulary was defined for the value_type
+                        valid_vocabulary_name = True
+
+                if not valid_vocabulary_name:
                     # Determine the widget to check for vocabulary there
                     widgets = mergedTaggedValueDict(schema, WIDGETS_KEY)
                     widget = widgets.get(field_name)
