@@ -191,20 +191,28 @@ class VocabularyView(BaseVocabularyView):
             raise VocabLookupException('No factory provided.')
         authorized = None
         sm = getSecurityManager()
-        if (factory_name not in _permissions or
-                not IPloneSiteRoot.providedBy(context)):
-            # Check field specific permission
-            if field_name:
-                permission_checker = queryAdapter(context,
-                                                  IFieldPermissionChecker)
-                if permission_checker is not None:
-                    authorized = permission_checker.validate(field_name,
-                                                             factory_name)
-            if not authorized:
-                raise VocabLookupException('Vocabulary lookup not allowed')
-        # Short circuit if we are on the site root and permission is
-        # in global registry
-        elif not sm.checkPermission(_permissions[factory_name], context):
+
+        # XXX: Checking permission on fields do not work properly, for instance
+        # if adding an element as folder/++add++Page then the permission_checker
+        # adapts the 'folder' object. Removing it now and submitting a bug
+        # upstream
+        #if (factory_name not in _permissions or
+                #not IPloneSiteRoot.providedBy(context)):
+            ## Check field specific permission
+            #if field_name:
+                #permission_checker = queryAdapter(context,
+                                                  #IFieldPermissionChecker)
+                #if permission_checker is not None:
+                    #authorized = permission_checker.validate(field_name,
+                                                             #factory_name)
+            #if not authorized:
+                #raise VocabLookupException('Vocabulary lookup not allowed')
+        ## Short circuit if we are on the site root and permission is
+        ## in global registry
+        #elif not sm.checkPermission(_permissions[factory_name], context):
+            #raise VocabLookupException('Vocabulary lookup not allowed')
+
+        if not sm.checkPermission(_permissions[factory_name], context):
             raise VocabLookupException('Vocabulary lookup not allowed')
 
         factory = queryUtility(IVocabularyFactory, factory_name)
