@@ -74,11 +74,15 @@
       file="static/widgets-select2-select2x2.png"
       layer=".interfaces.IWidgetsLayer"
       />
+
+  <!-- XXX: This is coming from tinymce pattern, which should use plone bundle,
+            instead of widgets -->
   <browser:resource
-      name="plone.app.widgets-tinymce-content.css"
+      name="plone-tinymce-content.css"
       file="static/widgets-tinymce-content.min.css"
       layer=".interfaces.IWidgetsLayer"
       />
+
   <browser:resource
       name="plone.app.widgets-tinymce-font-tinymce-small.eot"
       file="static/widgets-tinymce-font-tinymce-small.eot"

@@ -4,6 +4,10 @@ Changelog
 1.8.0 (unreleased)
 ------------------
 
+- Change the resource name since it is intended to be used with plone bundle
+  instead of widgets
+  [frapell]
+
 - Allow to remove a selected option in the ``select2`` widget if the field
   is not required
   [frapell]
