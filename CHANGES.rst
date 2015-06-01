@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.7.0+enfold2 (unreleased)
+1.7.0+enfold2 (2015-06-01)
 --------------------------
 
 - FD#47: Sort related items results alphabetically
