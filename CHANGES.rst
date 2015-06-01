@@ -4,7 +4,8 @@ Changelog
 1.7.0+enfold2 (unreleased)
 --------------------------
 
-- Nothing changed yet.
+- FD#47: Sort related items results alphabetically
+  [frapell]
 
 
 1.7.0+enfold1 (2015-04-09)

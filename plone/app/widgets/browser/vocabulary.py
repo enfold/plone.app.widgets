@@ -44,6 +44,61 @@ _unsafe_metadata = ['Creator', 'listCreators', 'author_name', 'commentors']
 _safe_callable_metadata = ['getURL', 'getPath']
 
 
+def sort_by_path_and_title(elements, brains=False):
+    """ This function will process the elements and produce a result which will
+    be, first all folderish items, and then all non-folderish items.
+    They will be split in groups according to the path and each of them sorted
+    alphabetically:
+    /folder1
+    /folder2
+    /folder3
+    /folder1/folder1
+    /folder3/folder1
+    /folder1/folder2
+    /folder1/item1
+    /folder2/item2
+    /folder1/item3
+    /folder1/folder2/item1
+    """
+
+    # We will add items into dictionaries using their splitted path length as
+    # key, we will use one for folderish items and one for non-folderish
+    folderish_order = dict()
+    non_folderish_order = dict()
+    results = []
+    for item in elements:
+        # Iterate over all elements
+        if not brains:
+            # Some times elements will be a vocabulary.
+            item = item.value
+        if item.is_folderish:
+            aux_order = folderish_order
+        else:
+            aux_order = non_folderish_order
+
+        # Get the key to use
+        path_len = len(item.getPath().split('/'))
+        # Get whatever was in there, or empty list if none
+        elems_list = aux_order.get(path_len, list())
+        # Add our item
+        elems_list.append(item)
+        aux_order[path_len] = elems_list
+
+    # Now that we have all items separated according to their path len, let's
+    # sort each group alphabetically on their title. First for folderish, then
+    # for non-folderish
+    for aux_order in [folderish_order, non_folderish_order]:
+        keys = aux_order.keys()
+        # Sort the keys so we get the shorter ones first
+        keys.sort()
+        for key in keys:
+            values = aux_order[key]
+            values.sort(key=lambda x:x.Title)
+            results += values
+
+    return results
+
+
 class VocabLookupException(Exception):
     pass
 
@@ -97,6 +152,9 @@ class BaseVocabularyView(BrowserView):
             total = 0  # do not error if object does not support __len__
                        # we'll check again later if we can figure some size
                        # out
+        if total > 0:
+            results = sort_by_path_and_title(results, results_are_brains)
+            results_are_brains = True
 
         # get batch
         batch = _parseJSON(self.request.get('batch', ''))
