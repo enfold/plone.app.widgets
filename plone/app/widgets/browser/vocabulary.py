@@ -66,6 +66,7 @@ def sort_by_path_and_title(elements, brains=False):
     folderish_order = dict()
     non_folderish_order = dict()
     results = []
+
     for item in elements:
         # Iterate over all elements
         if not brains:
@@ -152,9 +153,18 @@ class BaseVocabularyView(BrowserView):
             total = 0  # do not error if object does not support __len__
                        # we'll check again later if we can figure some size
                        # out
-        if total > 0:
-            results = sort_by_path_and_title(results, results_are_brains)
-            results_are_brains = True
+
+        attributes = _parseJSON(self.request.get('attributes', ''))
+        if isinstance(attributes, basestring) and attributes:
+            attributes = attributes.split(',')
+
+        if attributes and total > 0:
+            try:
+                results = sort_by_path_and_title(results, results_are_brains)
+                results_are_brains = True
+            except:
+                # Just pass
+                pass
 
         # get batch
         batch = _parseJSON(self.request.get('batch', ''))
@@ -178,10 +188,6 @@ class BaseVocabularyView(BrowserView):
 
         # build result items
         items = []
-
-        attributes = _parseJSON(self.request.get('attributes', ''))
-        if isinstance(attributes, basestring) and attributes:
-            attributes = attributes.split(',')
 
         if attributes:
             portal = getToolByName(context, 'portal_url').getPortalObject()

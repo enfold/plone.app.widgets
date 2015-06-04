@@ -4,7 +4,9 @@ Changelog
 1.7.0+enfold3 (unreleased)
 --------------------------
 
-- Nothing changed yet.
+- FD#47: Only sort items if there are attributes in the request, and wrap in
+  try - except just in case
+  [frapell]
 
 
 1.7.0+enfold2 (2015-06-01)
