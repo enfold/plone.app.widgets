@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.7.0+enfold3 (unreleased)
+1.7.0+enfold3 (2015-06-04)
 --------------------------
 
 - FD#47: Only sort items if there are attributes in the request, and wrap in
