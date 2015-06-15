@@ -32,6 +32,7 @@ class MetadataExtender(object):
                     label=old.label,
                     description=old.description,
                     pattern_options={'date': {'firstDay': first_weekday()}},
+                    visible = old.visible,
                 )
 
             if field.__name__ in ['endDate']:
@@ -39,18 +40,21 @@ class MetadataExtender(object):
                     label=old.label,
                     description=old.description,
                     pattern_options={'date': {'firstDay': first_weekday()}},
+                    visible = old.visible,
                 )
 
             if field.__name__ in ['subject']:
                 field.widget = at.KeywordsWidget(
                     label=old.label,
                     description=old.description,
+                    visible = old.visible,
                 )
 
             if field.__name__ in ['language']:
                 field.widget = at.SelectWidget(
                     label=old.label,
                     description=old.description,
+                    visible = old.visible,
                 )
 
             if field.__name__ in ['effectiveDate', 'expirationDate']:
@@ -58,6 +62,7 @@ class MetadataExtender(object):
                     label=old.label,
                     description=old.description,
                     pattern_options={'date': {'firstDay': first_weekday()}},
+                    visible = old.visible,
                 )
 
             if field.__name__ in ['contributors']:
@@ -66,6 +71,7 @@ class MetadataExtender(object):
                     description=_plone(u"The names of people that have "
                                        u"contributed to this item."),
                     vocabulary="plone.app.vocabularies.Users",
+                    visible = old.visible,
                 )
 
             if field.__name__ in ['creators']:
@@ -74,24 +80,28 @@ class MetadataExtender(object):
                     description=_plone(u"The names of people that are "
                                        u"creators to this item."),
                     vocabulary="plone.app.vocabularies.Users",
+                    visible = old.visible,
                 )
 
             if field.__name__ in ['text']:
                 field.widget = at.TinyMCEWidget(
                     label=old.label,
                     description=old.description,
+                    visible = old.visible,
                 )
 
             if field.__name__ == 'query':
                 field.widget = at.QueryStringWidget(
                     label=old.label,
-                    description=old.description
+                    description=old.description,
+                    visible = old.visible,
                 )
 
             if field.__name__ == 'relatedItems':
                 field.widget = at.RelatedItemsWidget(
                     label=old.label,
-                    description=old.description
+                    description=old.description,
+                    visible = old.visible,
                 )
 
         #if 'customViewFields' in schema:

@@ -4,7 +4,8 @@ Changelog
 1.7.0+enfold4 (unreleased)
 --------------------------
 
-- Nothing changed yet.
+- When overriding the widgets, also copy the 'visile' attribute
+  [frapell]
 
 
 1.7.0+enfold3 (2015-06-04)
