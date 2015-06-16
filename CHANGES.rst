@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.7.0+enfold4 (unreleased)
+1.7.0+enfold4 (2015-06-16)
 --------------------------
 
 - When overriding the widgets, also copy the 'visile' attribute
