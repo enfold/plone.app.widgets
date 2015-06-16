@@ -1,3 +1,17 @@
 include *.rst
+include *.GPL
+include *.in
+include *.nix
+include *.py
+include *.txt
+include Makefile
+include develop.cfg
+include sphinx.cfg
+include travis.cfg
+include versions.cfg
+recursive-include docs *.doctree
+recursive-include docs *.pickle
+recursive-include docs *.py
+recursive-include docs *.rst
 recursive-include plone/app/widgets *
 global-exclude *.pyc
