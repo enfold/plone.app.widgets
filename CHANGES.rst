@@ -1,6 +1,12 @@
 Changelog
 =========
 
+1.7.0+enfold6 (unreleased)
+--------------------------
+
+- Nothing changed yet.
+
+
 1.7.0+enfold5 (2015-06-26)
 --------------------------
 
