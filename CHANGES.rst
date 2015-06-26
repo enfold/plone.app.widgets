@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.7.0+enfold5 (unreleased)
+1.7.0+enfold5 (2015-06-26)
 --------------------------
 
 - Make the ``@@fileUpload`` to not be guarded by the AddPortalContent
