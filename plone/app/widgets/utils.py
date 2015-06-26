@@ -187,7 +187,7 @@ def get_tinymce_options(context, field, request):
             'upload': {
                 'initialFolder': initial,
                 'currentPath': current_path,
-                'baseUrl': config['document_base_url'],
+                'baseUrl': config['navigation_root_url'],
                 'relativePath': '@@fileUpload',
                 'uploadMultiple': False,
                 'maxFiles': 1,
