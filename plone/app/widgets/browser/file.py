@@ -1,4 +1,8 @@
+# -*- coding: utf-8 -*-
+from AccessControl import getSecurityManager
 from Products.CMFCore.utils import getToolByName
+from Products.CMFCore.permissions import AddPortalContent
+
 from Products.Five.browser import BrowserView
 
 import json
@@ -13,6 +17,7 @@ else:
     HAS_DEXTERITY = True
 from plone.app.widgets.interfaces import IATCTFileFactory, IDXFileFactory
 from plone.uuid.interfaces import IUUID
+
 import os
 import logging
 
@@ -96,6 +101,13 @@ class FileUploadView(BrowserView):
             raise KeyError
 
     def __call__(self):
+        # Check if user has permission to add content here
+        sm = getSecurityManager()
+        if not sm.checkPermission(AddPortalContent, self.context):
+            response = self.request.RESPONSE
+            response.setStatus(403)
+            return "You are not authorized to add content to this folder."
+
         req = self.request
         tusrequest = False
         if TUS_ENABLED:
@@ -129,6 +141,17 @@ class FileUploadView(BrowserView):
         # Determine if the default file/image types are DX or AT based
         ctr = getToolByName(self.context, 'content_type_registry')
         type_ = ctr.findTypeName(filename.lower(), '', '') or 'File'
+
+        # Now check that the object is not restricted to be added in the
+        # current context
+        allowed_ids = [fti.getId() for fti in self.context.allowedContentTypes()]
+        if type_ not in allowed_ids:
+            response = self.request.RESPONSE
+            response.setStatus(403)
+            if type_ == 'File':
+                return "You cannot add a File to this folder, try another one"
+            if type_ == 'Image':
+                return "You cannot add an Image to this folder, try another one"
 
         DX_BASED = False
         if HAS_DEXTERITY:

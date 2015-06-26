@@ -4,6 +4,11 @@ Changelog
 1.7.0+enfold5 (unreleased)
 --------------------------
 
+- Make the ``@@fileUpload`` to not be guarded by the AddPortalContent
+  permission, and instead do that check in code, so we can return better
+  error message
+  [frapell]
+
 - Upload pattern uses the baseUrl to compute the upload URL, so this should
   always be the site root and not the current context
   [frapell]
