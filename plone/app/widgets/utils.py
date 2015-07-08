@@ -16,8 +16,14 @@ from Products.CMFCore.interfaces._content import IFolderish
 from plone.uuid.interfaces import IUUID
 from Products.CMFPlone.interfaces import IPloneSiteRoot
 
+import logging
+
+
 _ = MessageFactory('plone.app.widgets')
 _plone = MessageFactory('plone')
+
+
+logger = logging.getLogger('plone.app.widgets')
 
 
 try:
@@ -170,15 +176,25 @@ def get_tinymce_options(context, field, request):
 
     utility = getToolByName(aq_inner(context), 'portal_tinymce', None)
     if utility:
-        config = utility.getConfiguration(context=context,
-                                          field=field,
-                                          request=request)
+        try:
+            config = utility.getConfiguration(context=context,
+                                              field=field,
+                                              request=request)
+
+        except KeyError:
+            # XXX: When a piece of content has an invalid layout, this fails
+            logger.warn("Object %s has an invalid layout property set" % context.absolute_url())
+            config = {'portal_url': portal_url,
+                      'navigation_root_url': portal_url}
+
+        if 'customplugins' in config:
+            del config['customplugins']
+        if 'plugins' in config:
+            del config['plugins']
+        if 'theme' in config:
+            del config['theme']
 
         config['content_css'] = config['portal_url'] + '/base.css'
-        del config['customplugins']
-        del config['plugins']
-        del config['theme']
-
         args['pattern_options'] = {
             'relatedItems': {
                 'vocabularyUrl': config['portal_url'] +

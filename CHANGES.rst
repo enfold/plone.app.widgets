@@ -4,7 +4,9 @@ Changelog
 1.7.0+enfold6 (unreleased)
 --------------------------
 
-- Nothing changed yet.
+- Do not blow up when getting TinyMCE config, if a piece of content has an
+  invalid layout set
+  [frapell]
 
 
 1.7.0+enfold5 (2015-06-26)
