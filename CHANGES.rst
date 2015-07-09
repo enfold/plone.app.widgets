@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.7.0+enfold6 (unreleased)
+1.7.0+enfold6 (2015-07-09)
 --------------------------
 
 - Do not blow up when getting TinyMCE config, if a piece of content has an
