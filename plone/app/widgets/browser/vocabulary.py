@@ -160,7 +160,13 @@ class BaseVocabularyView(BrowserView):
 
         if attributes and total > 0:
             try:
-                results = sort_by_path_and_title(results, results_are_brains)
+                query = self.parsed_query()
+                if 'sort_on' in query:
+                    # results are already sorted, just generate brains
+                    results = [i.value for i in results]
+                else:
+                    # no sort_on, use old logic
+                    results = sort_by_path_and_title(results, results_are_brains)
                 results_are_brains = True
             except:
                 # Just pass
