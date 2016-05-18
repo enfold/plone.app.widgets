@@ -4,7 +4,9 @@ Changelog
 1.7.0+enfold7 (unreleased)
 --------------------------
 
-- Nothing changed yet.
+- Add sort feature, sort_on and sort_order could be passed on the query
+  if sort_on is not passed the old sort_by_path_and_title is used
+  [jpgimenez]
 
 
 1.7.0+enfold6 (2015-07-09)
