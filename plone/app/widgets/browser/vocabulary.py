@@ -1,24 +1,31 @@
 # -*- coding: utf-8 -*-
 
+import inspect
+import itertools
+import json
+
+from logging import getLogger
+
+from types import FunctionType
+
 from AccessControl import getSecurityManager
+
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.interfaces import IPloneSiteRoot
 from Products.Five import BrowserView
-from logging import getLogger
+
+from plone.app.layout.navigation.interfaces import INavigationRoot
 from plone.app.querystring import queryparser
 from plone.app.widgets.interfaces import IFieldPermissionChecker
 from plone.autoform.interfaces import WRITE_PERMISSIONS_KEY
 from plone.supermodel.utils import mergedTaggedValueDict
-from types import FunctionType
+
 from zope.component import getUtility
 from zope.component import queryAdapter
 from zope.component import queryUtility
 from zope.schema.interfaces import ICollection
 from zope.schema.interfaces import IVocabularyFactory
 from zope.security.interfaces import IPermission
-import inspect
-import itertools
-import json
 
 logger = getLogger(__name__)
 
@@ -94,7 +101,7 @@ def sort_by_path_and_title(elements, brains=False):
         keys.sort()
         for key in keys:
             values = aux_order[key]
-            values.sort(key=lambda x:x.Title)
+            values.sort(key=lambda x: x.Title)
             results += values
 
     return results
@@ -150,9 +157,10 @@ class BaseVocabularyView(BrowserView):
         try:
             total = len(results)
         except TypeError:
-            total = 0  # do not error if object does not support __len__
-                       # we'll check again later if we can figure some size
-                       # out
+            # do not error if object does not support __len__
+            # we'll check again later if we can figure some size
+            # out
+            total = 0
 
         attributes = _parseJSON(self.request.get('attributes', ''))
         if isinstance(attributes, basestring) and attributes:
@@ -166,7 +174,8 @@ class BaseVocabularyView(BrowserView):
                     results = [i.value for i in results]
                 else:
                     # no sort_on, use old logic
-                    results = sort_by_path_and_title(results, results_are_brains)
+                    results = sort_by_path_and_title(results,
+                                                     results_are_brains)
                 results_are_brains = True
             except:
                 # Just pass
@@ -262,7 +271,8 @@ class VocabularyView(BaseVocabularyView):
         authorized = None
         sm = getSecurityManager()
         if (factory_name not in _permissions or
-                not IPloneSiteRoot.providedBy(context)):
+                (not IPloneSiteRoot.providedBy(context) and
+                 not INavigationRoot.providedBy(context))):
             # Check field specific permission
             if field_name:
                 permission_checker = queryAdapter(context,
