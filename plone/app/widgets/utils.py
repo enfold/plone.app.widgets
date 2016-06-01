@@ -107,7 +107,10 @@ def get_ajaxselect_options(context, value, separator, vocabulary_name,
                 vocabulary = vocabulary(context)
                 # Catalog
                 if vocabulary_name == 'plone.app.vocabularies.Catalog':
-                    uids = value.split(separator)
+                    if isinstance(value, (str, unicode)):
+                        uids = value.split(separator)
+                    else:
+                        uids = value
                     try:
                         catalog = getToolByName(context, 'portal_catalog')
                     except AttributeError:
