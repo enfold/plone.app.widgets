@@ -27,6 +27,8 @@ from zope.schema.interfaces import ICollection
 from zope.schema.interfaces import IVocabularyFactory
 from zope.security.interfaces import IPermission
 
+import plone.api
+
 logger = getLogger(__name__)
 
 
@@ -225,10 +227,8 @@ class BaseVocabularyView(BrowserView):
                             val = val()
                         else:
                             continue
-                    # XXX: #886546 We don't want to remove part of the path for each item, this causes issues when
-                    #      having internal folders as navigationRoot.
-                    # if key == 'path':
-                    #     val = val[len(base_path):]
+                    if key == 'path':
+                        val = val[len(base_path):]
                     item[key] = val
                 items.append(item)
         else:
@@ -304,6 +304,19 @@ class VocabularyView(BaseVocabularyView):
         else:
             factory_spec = inspect.getargspec(factory.__call__)
         query = _parseJSON(self.request.get('query', ''))
+        # #892945 and #886546: If there is a 'path' in the query criteria,
+        # make sure it starts with /{portal}
+        portal = plone.api.portal.get()
+        portal_path = '/'.join(portal.getPhysicalPath())
+        for elem in query['criteria']:
+            if 'i' in elem and elem['i'] == 'path':
+                val = elem['v']
+                if not val.startswith('/'):
+                    val = '/' + val
+                if not val.startswith(portal_path):
+                    val = portal_path + val
+                elem['v'] = val
+
         if query and 'query' in factory_spec.args:
             vocabulary = factory(context, query=query)
         else:
