@@ -4,6 +4,9 @@ Changelog
 1.7.0+enfold7 (unreleased)
 --------------------------
 
+- #886546: Do not remove initial part of the path for items
+  [frapell]
+
 - #888706: Honour the 'allowed_types' attribute on a field for the related
   items widget
   [frapell]

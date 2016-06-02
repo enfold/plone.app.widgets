@@ -225,8 +225,10 @@ class BaseVocabularyView(BrowserView):
                             val = val()
                         else:
                             continue
-                    if key == 'path':
-                        val = val[len(base_path):]
+                    # XXX: #886546 We don't want to remove part of the path for each item, this causes issues when
+                    #      having internal folders as navigationRoot.
+                    # if key == 'path':
+                    #     val = val[len(base_path):]
                     item[key] = val
                 items.append(item)
         else:
@@ -266,6 +268,7 @@ class VocabularyView(BaseVocabularyView):
         context = self.context
         factory_name = self.request.get('name', None)
         field_name = self.request.get('field', None)
+
         if not factory_name:
             raise VocabLookupException('No factory provided.')
         authorized = None
