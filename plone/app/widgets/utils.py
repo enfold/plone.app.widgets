@@ -124,11 +124,13 @@ def get_ajaxselect_options(context, value, separator, vocabulary_name,
                             options['initialValues'][term.token] = term.title
                         except LookupError:
                             options['initialValues'][value] = value
+
     return options
 
 
 def get_relateditems_options(context, value, separator, vocabulary_name,
                              vocabulary_view, field_name=None):
+
     portal = get_portal()
     options = get_ajaxselect_options(portal, value, separator,
                                      vocabulary_name, vocabulary_view,
@@ -148,6 +150,20 @@ def get_relateditems_options(context, value, separator, vocabulary_name,
     if properties:
         options['folderTypes'] = properties.site_properties.getProperty(
             'typesLinkToFolderContentsInFC', options['folderTypes'])
+
+    if field_name and hasattr(context, 'Schema'):
+        field = context.Schema()[field_name]
+        if isinstance(field.allowed_types, basestring):
+            allowed_types = [field.allowed_types]
+        else:
+            allowed_types = list(field.allowed_types)
+        if hasattr(field, 'allowed_types') and field.allowed_types:
+            options['selectableTypes'] = allowed_types
+            options['baseCriteria'] = [{
+                'i': 'portal_type',
+                'o': 'plone.app.querystring.operation.list.contains',
+                'v': allowed_types + list(options['folderTypes'])
+            }]
 
     return options
 

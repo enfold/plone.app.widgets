@@ -4,6 +4,10 @@ Changelog
 1.7.0+enfold7 (unreleased)
 --------------------------
 
+- #888706: Honour the 'allowed_types' attribute on a field for the related
+  items widget
+  [frapell]
+
 - Add sort feature, sort_on and sort_order could be passed on the query
   if sort_on is not passed the old sort_by_path_and_title is used
   [jpgimenez]
