@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.7.0+enfold7 (unreleased)
+1.7.0+enfold7 (2016-06-10)
 --------------------------
 
 - #892945: Do not include /{portal} as part of the path
