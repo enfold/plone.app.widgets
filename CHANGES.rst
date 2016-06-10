@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.7.0+enfold8 (unreleased)
+1.7.0+enfold8 (2016-06-10)
 --------------------------
 
 - #909322: Make sure we get the navigation root for the relateditems widget
