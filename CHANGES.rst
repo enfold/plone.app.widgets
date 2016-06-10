@@ -4,7 +4,7 @@ Changelog
 1.7.0+enfold7 (unreleased)
 --------------------------
 
-- #886546: Do not remove initial part of the path for items
+- #892945: Do not include /{portal} as part of the path
   [frapell]
 
 - #888706: Honour the 'allowed_types' attribute on a field for the related
