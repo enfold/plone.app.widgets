@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-version = '1.7.0+enfold8'
+version = '1.7.0+enfold9.dev0'
 
 setup(
     name='plone.app.widgets',
