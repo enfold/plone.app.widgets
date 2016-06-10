@@ -4,7 +4,8 @@ Changelog
 1.7.0+enfold8 (unreleased)
 --------------------------
 
-- Nothing changed yet.
+- #909322: Make sure we get the navigation root for the relateditems widget
+  [frapell]
 
 
 1.7.0+enfold7 (2016-06-10)

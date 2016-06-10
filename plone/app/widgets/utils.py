@@ -5,6 +5,7 @@ from Products.CMFCore.interfaces import ISiteRoot
 from Products.CMFCore.utils import getToolByName
 from datetime import datetime
 from plone.app.layout.navigation.root import getNavigationRootObject
+from zope.component import getMultiAdapter
 from zope.component import providedBy
 from zope.component import queryUtility
 from zope.component.hooks import getSite
@@ -165,6 +166,11 @@ def get_relateditems_options(context, value, separator, vocabulary_name,
                 'v': allowed_types + list(options['folderTypes'])
             }]
 
+    portal_state = getMultiAdapter((context, context.REQUEST),
+                                   name=u'plone_portal_state')
+    if 'basePath' not in options:
+        portal_path = '/'.join(portal.getPhysicalPath())
+        options['basePath'] = portal_state.navigation_root_path()[len(portal_path):]
     return options
 
 
