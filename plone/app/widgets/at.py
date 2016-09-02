@@ -5,6 +5,7 @@ from DateTime import DateTime
 from Products.Archetypes.interfaces import IBaseObject
 from Products.Archetypes.Registry import registerWidget
 from Products.Archetypes.Widget import TypesWidget
+from Products.ATContentTypes.interfaces.image import IATImage
 from Products.CMFCore.utils import getToolByName
 from datetime import datetime
 from plone.app.widgets.base import InputWidget
@@ -498,6 +499,22 @@ class RelatedItemsWidget(BaseWidget):
             return empty_marker
         value = [v.split('/')[0] for v in value.strip().split(self.separator)]
         return value, {}
+
+    def view(self, context, field, request):
+        """ If the referenced object is an image, use the preview scale by
+        default
+
+        :returns: Fields value.
+        :rtype: string
+        """
+        scale = request.get('image.scale', 'preview')
+        results = field.getAccessor(context)()
+        if IATImage.providedBy(results):
+            try:
+                results = results.tag(scale=scale)
+            except:
+                pass
+        return results
 
 
 registerWidget(
