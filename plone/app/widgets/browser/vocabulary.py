@@ -308,14 +308,15 @@ class VocabularyView(BaseVocabularyView):
         # make sure it starts with /{portal}
         portal = plone.api.portal.get()
         portal_path = '/'.join(portal.getPhysicalPath())
-        for elem in query['criteria']:
-            if 'i' in elem and elem['i'] == 'path':
-                val = elem['v']
-                if not val.startswith('/'):
-                    val = '/' + val
-                if not val.startswith(portal_path):
-                    val = portal_path + val
-                elem['v'] = val
+        if isinstance(query, dict):
+            for elem in query['criteria']:
+                if 'i' in elem and elem['i'] == 'path':
+                    val = elem['v']
+                    if not val.startswith('/'):
+                        val = '/' + val
+                    if not val.startswith(portal_path):
+                        val = portal_path + val
+                    elem['v'] = val
 
         if query and 'query' in factory_spec.args:
             vocabulary = factory(context, query=query)

@@ -4,6 +4,9 @@ Changelog
 1.7.0+enfold9 (unreleased)
 --------------------------
 
+- #1055981: Only fix criteria query if query is a dict
+  [frapell]
+
 - FD#1756: If the object referenced from a related items field is an image,
   get the preview scale instead of the full sized image. This can optionally
   be controlled using an 'image.scale' request header with the scale name
