@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.7.0+enfold9 (unreleased)
+1.7.0+enfold9 (2016-09-23)
 --------------------------
 
 - #1055981: Only fix criteria query if query is a dict
