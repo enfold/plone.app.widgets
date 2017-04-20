@@ -4,7 +4,8 @@ Changelog
 1.7.0+enfold10 (unreleased)
 ---------------------------
 
-- Nothing changed yet.
+- #1412586: Handle .url files uploaded using the tinymce integrated uploader
+  [frapell]
 
 
 1.7.0+enfold9 (2016-09-23)

@@ -152,6 +152,8 @@ class FileUploadView(BrowserView):
                 return "You cannot add a File to this folder, try another one"
             if type_ == 'Image':
                 return "You cannot add an Image to this folder, try another one"
+            if type_ == 'Link':
+                return "You cannot add a Link to this folder, try another one"
 
         DX_BASED = False
         if HAS_DEXTERITY:
@@ -173,6 +175,9 @@ class FileUploadView(BrowserView):
             elif 'Image' in obj.portal_type:
                 size = obj.image.getSize()
                 content_type = obj.image.contentType
+            elif 'Link' in obj.portal_type:
+                size = 0
+                content_type ='Link'
 
             result = {
                 "type": content_type,
