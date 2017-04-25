@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.7.0+enfold10 (unreleased)
+1.7.0+enfold10 (2017-04-25)
 ---------------------------
 
 - #1412586: Handle .url files uploaded using the tinymce integrated uploader
