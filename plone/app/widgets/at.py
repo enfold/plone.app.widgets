@@ -23,6 +23,8 @@ from plone.app.widgets.utils import get_tinymce_options
 from plone.uuid.interfaces import IUUID
 from zope.interface import implements
 from zope.component import adapts
+from zope.component import getUtility
+from zope.schema.interfaces import IVocabularyFactory
 
 import json
 
@@ -428,6 +430,18 @@ class KeywordsWidget(AjaxSelectWidget):
         if value is empty_marker:
             return empty_marker
         value = value.strip().split(self.separator)
+
+        factory = getUtility(IVocabularyFactory, 'plone.app.vocabularies.Keywords')
+        vocab = factory(instance)
+
+        def get_value(token):
+            try:
+                return vocab.getTermByToken(token).value
+            except LookupError:
+                return token
+
+        value = [get_value(v) for v in value]
+
         return value, {}
 
 
