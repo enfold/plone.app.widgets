@@ -4,7 +4,10 @@ Changelog
 1.7.0+enfold11 (unreleased)
 ---------------------------
 
-- Nothing changed yet.
+- #1484582: Some WYSIWYG improvements. It is recommended to pull
+  enfold.overrides version 1.11.0 or up if using this version
+  of plone.app.widgets
+  [frapell]
 
 
 1.7.0+enfold10 (2017-04-25)

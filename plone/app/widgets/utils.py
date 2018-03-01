@@ -4,7 +4,10 @@ from Acquisition import aq_inner, aq_parent
 from Products.CMFCore.interfaces import ISiteRoot
 from Products.CMFCore.utils import getToolByName
 from datetime import datetime
+from OFS.interfaces import IFolder
+from OFS.interfaces import ISimpleItem
 from plone.app.layout.navigation.root import getNavigationRootObject
+from z3c.form.interfaces import IForm
 from zope.component import getMultiAdapter
 from zope.component import providedBy
 from zope.component import queryUtility
@@ -75,9 +78,9 @@ def get_date_options(request):
                 _('pickadate_date_format', default='mmmm d, yyyy'),
                 context=request),
             'placeholder': translate(_plone('Enter date...'), context=request),
-            'today': translate(_plone(u"Today"), context=request),
-            'clear': translate(_plone(u"Clear"), context=request),
-        }
+        },
+        'today': translate(_(u"Today"), context=request),
+        'clear': translate(_(u"Clear"), context=request),
     }
 
 
@@ -131,6 +134,9 @@ def get_ajaxselect_options(context, value, separator, vocabulary_name,
 
 def get_relateditems_options(context, value, separator, vocabulary_name,
                              vocabulary_view, field_name=None):
+    
+    if IForm.providedBy(context):
+        context = context.context
 
     portal = get_portal()
     options = get_ajaxselect_options(portal, value, separator,
@@ -168,9 +174,27 @@ def get_relateditems_options(context, value, separator, vocabulary_name,
 
     portal_state = getMultiAdapter((context, context.REQUEST),
                                    name=u'plone_portal_state')
-    if 'basePath' not in options:
-        portal_path = '/'.join(portal.getPhysicalPath())
-        options['basePath'] = portal_state.navigation_root_path()[len(portal_path):]
+    nav_root = portal_state.navigation_root()
+
+    # basePath - start to search/browse in here.
+    base_path_context = context
+    if not IFolder.providedBy(base_path_context):
+        base_path_context = aq_parent(base_path_context)
+    if not base_path_context:
+        base_path_context = nav_root
+    options['basePath'] = '/'.join(base_path_context.getPhysicalPath())
+
+    if base_path_context != nav_root:
+        options['favorites'] = [
+            {
+                'title': _(u'Current Content'),
+                'path': '/'.join(base_path_context.getPhysicalPath())
+            }, {
+                'title': _(u'Start Page'),
+                'path': '/'.join(nav_root.getPhysicalPath())
+            }
+        ]
+
     return options
 
 
@@ -183,7 +207,24 @@ def get_querystring_options(context, querystring_view):
     return {
         'indexOptionsUrl': '{}/{}'.format(portal_url, querystring_view),
         'previewURL': '%s/@@querybuilder_html_results' % base_url,
-        'previewCountURL': '%s/@@querybuildernumberofresults' % base_url
+        'previewCountURL': '%s/@@querybuildernumberofresults' % base_url,
+        'patternDateOptions': get_date_options(getRequest()),
+        'patternAjaxSelectOptions': get_ajaxselect_options(
+            context,
+            None,
+            ';',
+            None,
+            None,
+            None
+        ),
+        'patternRelateditemsOptions': get_relateditems_options(
+            context,
+            None,
+            ';',
+            'plone.app.vocabularies.Catalog',
+            '@@getVocabulary',
+            'relatedItems'
+        )
     }
 
 
@@ -200,6 +241,7 @@ def get_tinymce_options(context, field, request):
     current_path = folder.absolute_url()[len(portal_url):]
 
     utility = getToolByName(aq_inner(context), 'portal_tinymce', None)
+
     if utility:
         try:
             config = utility.getConfiguration(context=context,
@@ -221,10 +263,13 @@ def get_tinymce_options(context, field, request):
 
         config['content_css'] = config['portal_url'] + '/base.css'
         args['pattern_options'] = {
-            'relatedItems': {
-                'vocabularyUrl': config['portal_url'] +
-                '/@@getVocabulary?name=plone.app.vocabularies.Catalog'
-            },
+            'relatedItems': get_relateditems_options(
+                context,
+                None,
+                ';',
+                'plone.app.vocabularies.Catalog',
+                '@@getVocabulary'
+            ),
             'upload': {
                 'initialFolder': initial,
                 'currentPath': current_path,
@@ -245,10 +290,13 @@ def get_tinymce_options(context, field, request):
         }
     else:
         args['pattern_options'].update({
-            'relatedItems': {
-                'vocabularyUrl': portal_url +
-                '/@@getVocabulary?name=plone.app.vocabularies.Catalog'
-            },
+            'relatedItems': get_relateditems_options(
+                context,
+                None,
+                ';',
+                'plone.app.vocabularies.Catalog',
+                '@@getVocabulary'
+            ),
             'upload': {
                 'initialFolder': initial,
                 'currentPath': current_path,
