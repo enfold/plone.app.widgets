@@ -4,6 +4,10 @@ Changelog
 1.7.0+enfold11 (unreleased)
 ---------------------------
 
+- FD#2953: Make sure the portal_type when uploading from TinyMCE is
+  always either 'File', 'Image' or 'Link'
+  [frapell]
+
 - #1484582: Some WYSIWYG improvements. It is recommended to pull
   enfold.overrides version 1.11.0 or up if using this version
   of plone.app.widgets

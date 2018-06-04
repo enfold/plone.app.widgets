@@ -111,6 +111,9 @@ class DXFileFactory(object):
     def __call__(self, name, content_type, data):
         ctr = getToolByName(self.context, 'content_type_registry')
         type_ = ctr.findTypeName(name.lower(), '', '') or 'File'
+        if type_ not in ['File', 'Image', 'Link']:
+            # XXX: FD#2953 with a name such as "test.txt", type_ would be "Document", so we force it here to be File
+            type_ = 'File'
 
         name = name.decode("utf8")
 
