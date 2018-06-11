@@ -14,6 +14,13 @@ Changelog
   [frapell]
 
 
+1.7.0+enfold11 (2018-01-29)
+---------------------------
+
+- Fix KeywordsWidget bug caused by long tags
+  [swampmonkey]
+
+
 1.7.0+enfold10 (2017-04-25)
 ---------------------------
 
