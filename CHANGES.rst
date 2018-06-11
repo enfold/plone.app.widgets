@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.7.0+enfold11 (unreleased)
+1.7.0+enfold12 (2018-06-11)
 ---------------------------
 
 - FD#2953: Make sure the portal_type when uploading from TinyMCE is
