@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.7.0+enfold13 (unreleased)
+1.7.0+enfold13 (2018-07-09)
 ---------------------------
 
 - #2237815: Bugfix: Add missing import
