@@ -4,7 +4,8 @@ Changelog
 1.7.0+enfold13 (unreleased)
 ---------------------------
 
-- Nothing changed yet.
+- #2237815: Bugfix: Add missing import
+  [frapell]
 
 
 1.7.0+enfold12 (2018-06-11)

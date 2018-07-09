@@ -15,6 +15,7 @@ from zope.component.hooks import getSite
 from zope.i18n import translate
 from zope.i18nmessageid import MessageFactory
 from zope.schema.interfaces import IVocabularyFactory
+from zope.globalrequest import getRequest
 from z3c.form.interfaces import IAddForm
 from Products.CMFCore.interfaces._content import IFolderish
 from plone.uuid.interfaces import IUUID
